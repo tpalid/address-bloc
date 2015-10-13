@@ -15,8 +15,9 @@ class MenuController
         puts "3 - Search for an entry"
         puts "4 - Import entries from a CSV"
         puts "5 - View Entry Number n"
-        puts "6 - Exit"
-        print "Enter your selection"
+        puts "6 - Delete all entries"
+        puts "7 - Exit"
+        print "Enter your selection: "
         
         selection = gets.to_i
         puts "You picked #{selection}"
@@ -43,6 +44,10 @@ class MenuController
             entry_by_number
             main_menu
         when 6
+            system "clear"
+            nuke
+            main_menu
+        when 7
             puts "Good-bye!"
             
             exit(0)
@@ -121,7 +126,7 @@ class MenuController
             
     
     def read_csv
-        print "Enter CSV file to import"
+        print "Enter CSV file to import: "
         file_name = gets.chomp
         if file_name.empty?
             system "clear"
@@ -167,7 +172,7 @@ class MenuController
         print "Entry Number: "
         number = gets.chomp.to_i
             until number < @address_book.entries.length do
-                p "Please enter a valid number or type 'exit' to return to the main menu"
+                p "Please enter a valid number or type 'exit' to return to the main menu: "
                 number = gets.chomp
                     if number == 'exit'
                         system "clear"
@@ -201,9 +206,15 @@ class MenuController
         puts "Updated entry:"
         puts entry
     end
-        
-        
-        
-        
     
+    def nuke
+        puts "Are you sure you would like to delete all entries? Y or N: "
+        answer = gets.chomp.to_s.downcase
+        if answer == "y"
+            @address_book.entries.clear
+            puts "All entries have been deleted!"
+        else
+            main_menu
+        end
+    end
 end
